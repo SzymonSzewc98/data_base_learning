@@ -1,12 +1,7 @@
 #include <iostream>
 #include <filesystem>
 #include <sqlite3.h>
-
-namespace utils
-{
-    const std::string DATABASE_DIRECTORY{"../DataBase/"};
-    const std::string DATABASE_NAME{"example.db"};
-}
+#include "../common/utils.h"
 
 int main()
 {
