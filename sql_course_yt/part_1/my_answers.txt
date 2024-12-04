@@ -1,0 +1,34 @@
+Find in the database:
+
+1. Question no. 15
+	SELECT * FROM questions WHERE ID=15
+	SELECT * FROM questions WHERE ID="15"
+	
+2. Questions where the correct answer is "a"
+	SELECT * FROM questions WHERE correct_answer="a"
+
+3. Questions from 2007
+	SELECT * FROM questions WHERE year=2007
+	SELECT * FROM questions WHERE year="2007"
+
+4. Programming questions from 2009
+	SELECT * FROM questions WHERE category="programming" AND year=2009
+
+5. Only the content of the questions and 4 answers from 2010
+	SELECT content, answer_a, answer_b, answer_c, answer_d FROM questions WHERE year=2010
+	
+6. Questions arranged alphabetically according to content
+	SELECT * FROM questions ORDER BY content ASC (ASC-Ascending) / DESC (Descending)
+	
+7. Contents of questions numbers 10-12
+	SELECT id, content FROM questions WHERE ID>=10 AND ID<=12
+	SELECT id, content FROM questions WHERE ID BETWEEN 10 AND 12
+
+8. Questions starting with the words "How".
+	SELECT * FROM questions WHERE content LIKE "how%"
+
+9. Questions containing the phrase "C++"
+	SELECT * FROM questions WHERE content LIKE "%C++%" OR answer_a LIKE "%C++%" OR answer_b LIKE "%C++%" OR answer_b LIKE "%C++%" OR answer_d LIKE "%C++%" 
+	
+10. Questions on programming, operating systems and networks from 2012
+	SELECT * FROM questions WHERE (category = "programming" OR category = "operating systems and networks") AND year = 2012

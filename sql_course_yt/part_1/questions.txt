@@ -1,0 +1,21 @@
+Find in the database:
+
+1. Question no. 15
+
+2. Questions where the correct answer is "a"
+
+3. Questions from 2007
+
+4. Programming questions from 2009
+
+5. Only the content of the questions and 4 answers from 2010
+
+6. Questions arranged alphabetically according to content
+
+7. Contents of questions numbers 10-12
+
+8. Questions starting with the words "How".
+
+9. Questions containing the phrase "C++"
+
+10. Questions on programming, operating systems and networks from 2012
