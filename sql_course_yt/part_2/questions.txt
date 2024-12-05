@@ -1,0 +1,38 @@
+Znajdź w bazie:
+1. Książki ułożone alfabetycznie wg tytułu
+	SELECT * FROM books ORDER BY Title ASC
+
+2. Najdroższą książkę w bazie
+	SELECT * FROM books ORDER BY price DESC LIMIT 1
+	
+3. Wszystkie wysłane zamówienia
+	SELECT * FROM orders WHERE status="sent"
+
+4. Wszystkich klientów o nazwisku Rutkowski
+	SELECT * FROM clients WHERE Surname="Rutkowski"
+	
+5. Książki zawierające wyrażenie "PHP" w tytule
+	SELECT * FROM books WHERE Title LIKE "%PHP%"
+
+6. Zamówienia ułożone od ostatnio dokonanego
+	SELECT * FROM orders ORDER BY date DESC
+
+
+Zapytania związane z łączeniem tabel:
+
+7. Wyjmij dla wszystkich zamówień: imię i nazwisko klienta zamawiającego, id
+zamówienia, datę zamówienia
+	SELECT clients.name, clients.Surname, orders.orderID, orders.date FROM clients, orders WHERE clients.clientID = orders.clientID
+
+7a. Jak w punkcie 7, ale z aliasami (przezwiskami) dla tabel
+	SELECT c.name, c.Surname, o.orderID, o.date FROM clients AS c, orders AS o WHERE c.clientID = o.clientID
+	
+8. Imiona i nazwiska osób, które zamówiły kiedykolwiek książkę nr 2
+
+
+9. Jakie książki (tytuł, autor) zamówiła osoba: Jan Nowak?
+
+
+10. Zamówienia dokonane przez osoby o nazwisku Rutkowski ułożone wg daty od
+najpóźniej dokonanych (imię i nazwisko osoby zamawiającej, id, datę i status
+zamówienia, tytuł zamówionej książki)
