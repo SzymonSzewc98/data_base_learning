@@ -28,11 +28,14 @@ zamówienia, datę zamówienia
 	SELECT c.name, c.Surname, o.orderID, o.date FROM clients AS c, orders AS o WHERE c.clientID = o.clientID
 	
 8. Imiona i nazwiska osób, które zamówiły kiedykolwiek książkę nr 2
-
+	SELECT c.name, c.Surname FROM clients AS c, orders AS o WHERE o.bookID = 2 AND o.clientID = c.clientID
 
 9. Jakie książki (tytuł, autor) zamówiła osoba: Jan Nowak?
-
+	SELECT b.Title, b.AuthorName, b.AuthorSurname FROM books AS b, orders AS o WHERE o.clientID = 2 AND b.bookID = o.bookID
 
 10. Zamówienia dokonane przez osoby o nazwisku Rutkowski ułożone wg daty od
 najpóźniej dokonanych (imię i nazwisko osoby zamawiającej, id, datę i status
 zamówienia, tytuł zamówionej książki)
+	SELECT c.name, c.Surname, o.orderID, o.date, o.status, b.title FROM clients AS c, orders AS o, books AS b WHERE o.clientID = c.clientID AND o.bookID = b.bookID AND c.Surname="Rutkowski" ORDER BY o.date DESC
+	
+	

@@ -1,0 +1,36 @@
+1. Change the Surname of a client with ID = 8, to "Psikuta" (from "Jankowska")
+	UPDATE clients SET Surname = "Psikuta" WHERE clientID = 8
+2. Change ID of client number 3 to 1
+	UPDATE clients SET clientID = 1 WHERE clientID = 3 -> not possible, it's unique key
+	
+3. Increase price of all of the books by 10%
+	UPDATE books SET price= (1.1*price) //Need to round this number
+	UPDATE books SET price= ROUND(price*1.1, 2)
+
+4. Decrease price of the most valuable book by 10PLN
+	UPDATE books SET price = price - 10 ORDER BY price DESC LIMIT 1
+
+5. Change the name and the surname of client Anna Karenina (id 10) to Joanna Dostojewska
+	UPDATE clients SET name = "Anna", Surname = "Dostojewska" WHERE clientID = 10
+
+6. Change a status of orders 4 and 5 to "sent"
+	UPDATE orders SET status = "sent" WHERE orderID = 4 OR orderID = 5
+	UPDATE orders SET status = "sent" WHERE orderID BETWEEN 4 AND 5
+	
+***INSERT***
+7. Add a new client into data base: Franciszek Jankowski from Chorzow
+	INSERT INTO clients VALUES (NULL, "Franciszek", "Jankowski", "Chorzow")
+	
+8. Add order: Artur Rutkowski ordered book "HTML5. Tworzenie witryn"
+	INSERT INTO orders (orderID, date, status, clientID, bookID) VALUES (NULL, "2016-01-01", "waiting", 7, 3)
+	
+9. Add new book into books: Surname "Grebosz", title "Symfonia C++", author's name and price UNKNOWN
+	INSERT INTO books (bookID, AuthorSurname, title) VALUES (NULL, "Grebosz", "Symfonia C++") //Name and price must be not "NOT NULL"
+	
+10. Add two new clients using only one SQL querry Marilyn Monroe from Los Angeles and John Wayne from Los Angeles
+	INSERT INTO clients VALUES (NULL, "Marilin", "Monroe", "Los Angeles"), ("John", "Wayne", "Los Angeles")
+
+11. Add new client but with different method:
+	INSERT INTO clients SET clientID = NULL, name = "Steve", Surname = "McQueen", city = "Los Angeles"
+	
+	//Not available with SQLITE
