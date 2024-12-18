@@ -1,0 +1,18 @@
+1. How many countries is there on each continent:
+	SELECT Continent, COUNT(Code) AS HowManyCountries FROM country GROUP BY Continent ORDER BY HowManyCountries DESC
+	
+2. Which official languages are used by the most countries:
+	SELECT countrylanguage.Language, COUNT(countrylanguage.CountryCode) AS HowManyCountries FROM countrylanguage, country WHERE countrylanguage.IsOfficial = "T" AND country.Continent = "Europe" AND country.Code = countrylanguage.CountryCode GROUP BY countrylanguage.Language ORDER BY HowManyCountries DESC
+	
+3. For each country in South America summarized count of people living in big cities which population exceeds 100000 people:
+	SELECT country.Name, SUM(city.Population) AS Population FROM country, city WHERE country.Continent = "South America" AND city.Population >= 100000 AND 		country.Code = city.CountryCode GROUP BY country.Name ORDER BY Population DESC; 
+	
+4. How many birds of each species have been seen by orintologists? Which specie've been seen the most?
+	SELECT gatunki.ID_gatunku, gatunki.nazwa_zwyczajowa, SUM(obserwacje.liczebnosc) AS liczebnosc FROM gatunki, obserwacje WHERE gatunki.ID_gatunku = 	obserwacje.ID_gatunku GROUP BY gatunki.nazwa_zwyczajowa ORDER BY liczebnosc DESC
+	
+	
+5. Which 10 species of birds were object of most observations in Gdanski region?
+	SELECT gatunki.nazwa_zwyczajowa, gatunki.ID_gatunku, COUNT(obserwacje.ID_gatunku) AS IloscObserwacji FROM gatunki, obserwacje, lokalizacje WHERE lokalizacje.powiat = "gdanski" AND lokalizacje.ID_lokalizacji = obserwacje.ID_lokalizacji AND gatunki.ID_gatunku = obserwacje.ID_gatunku GROUP BY gatunki.nazwa_zwyczajowa ORDER BY IloscObserwacji DESC LIMIT 10
+	
+6. In which district is the number of observed baby birds feeding in the forest the highest and where is the lowest?
+	SELECT lokalizacje.powiat, SUM(obserwacje.liczebnosc) AS Liczebnosc FROM lokalizacje, gatunki, obserwacje WHERE obserwacje.ID_lokalizacji = lokalizacje.ID_lokalizacji AND obserwacje.ID_gatunku = gatunki.ID_gatunku AND lokalizacje.opis LIKE "%las%" GROUP BY lokalizacje.powiat ORDER BY Liczebnosc DESC

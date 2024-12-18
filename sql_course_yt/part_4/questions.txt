@@ -1,0 +1,17 @@
+1. Delete record 2 from table "orders"
+	DELETE FROM orders WHERE orderID = 2
+	
+2. Migration to mySQL (new data base not added to repo)
+
+3. Compare two SQLs for execution time:
+	DELETE FROM slowa_kluczowe , time: 138s (Zelent) (0.0004  ???? 0.0029??? co krotko)
+	TRUNCATE TABLE slowa_kluczowe ,  time: 0.0000 (Zelent) (0.0005s u mnie)
+	
+4. Delete 5 last added clients:
+	DELETE FROM klienci ORDER BY idklienta DESC LIMIT 5
+	
+5. Delete whole ksiegarnia database:
+	DROP DATABASE ksiegarnia
+	
+6. Delete klienci table in ksiegarnia database:
+	DROP TABLE klienci
