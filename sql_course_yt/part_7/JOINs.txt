@@ -1,0 +1,209 @@
+"INNER JOIN" - shows only the common part of two sets, the same will be achieved with "JOIN":
+
+SELECT dane_wypozyczen.id_wypozyczenia,
+		samochody.marka,
+        samochody.model
+FROM dane_wypozyczen
+	INNER JOIN samochody ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+ORDER BY dane_wypozyczen.id_wypozyczenia
+
+ALIASES:
+SELECT d.id_wypozyczenia,
+		s.marka,
+        s.model
+FROM dane_wypozyczen d
+	INNER JOIN samochody s ON s.id_samochodu = d.id_samochodu
+ORDER BY d.id_wypozyczenia
+
+Add date of order:
+
+SELECT dane_wypozyczen.id_wypozyczenia,
+		samochody.marka,
+        samochody.model,
+        wypozyczenia.data_wyp
+FROM dane_wypozyczen
+	INNER JOIN samochody ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+    INNER JOIN wypozyczenia ON wypozyczenia.id_wypozyczenia = dane_wypozyczen.id_wypozyczenia
+ORDER BY dane_wypozyczen.id_wypozyczenia
+
+Add client data:
+
+SELECT dane_wypozyczen.id_wypozyczenia,
+		samochody.marka,
+        samochody.model,
+        wypozyczenia.data_wyp,
+        klienci.imie_klienta,
+        klienci.nazwisko_klienta
+FROM dane_wypozyczen
+	INNER JOIN samochody ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+    INNER JOIN wypozyczenia ON wypozyczenia.id_wypozyczenia = dane_wypozyczen.id_wypozyczenia
+    INNER JOIN klienci ON wypozyczenia.id_klienta = klienci.id_klienta
+ORDER BY dane_wypozyczen.id_wypozyczenia
+
+Add worker data:
+SELECT dane_wypozyczen.id_wypozyczenia,
+		samochody.marka,
+        samochody.model,
+        wypozyczenia.data_wyp,
+        klienci.imie_klienta,
+        klienci.nazwisko_klienta,
+        pracownicy.imie_pracownika,
+        pracownicy.nazwisko_pracownika
+FROM dane_wypozyczen
+	INNER JOIN samochody ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+    INNER JOIN wypozyczenia ON wypozyczenia.id_wypozyczenia = dane_wypozyczen.id_wypozyczenia
+    INNER JOIN klienci ON wypozyczenia.id_klienta = klienci.id_klienta
+    INNER JOIN pracownicy ON wypozyczenia.id_pracownika = pracownicy.id_pracownika
+ORDER BY dane_wypozyczen.id_wypozyczenia
+
+
+SELECT pracownicy.imie_pracownika,
+		pracownicy.nazwisko_pracownika,
+        wypozyczenia.id_wypozyczenia
+FROM pracownicy
+INNER JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+
+NOTE: UPPER sql show only those workers that handled any order
+
+Let's use different JOINs to show all workers even those who did not do anything:
+
+Show the worker who did not work on any order:
+SELECT 
+	pracownicy.imie_pracownika,
+	pracownicy.nazwisko_pracownika,
+    wypozyczenia.id_wypozyczenia
+FROM 
+pracownicy LEFT JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE wypozyczenia.id_wypozyczenia is null
+ORDER BY wypozyczenia.id_wypozyczenia
+
+
+SELECT dane_wypozyczen.id_wypozyczenia,
+		samochody.marka,
+        samochody.model,
+        wypozyczenia.data_wyp,
+        klienci.imie_klienta,
+        klienci.nazwisko_klienta,
+        pracownicy.imie_pracownika,
+        pracownicy.nazwisko_pracownika
+FROM dane_wypozyczen
+	INNER JOIN samochody ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+    INNER JOIN wypozyczenia ON wypozyczenia.id_wypozyczenia = dane_wypozyczen.id_wypozyczenia
+    LEFT JOIN klienci ON wypozyczenia.id_klienta = klienci.id_klienta
+    LEFT JOIN pracownicy ON wypozyczenia.id_pracownika = pracownicy.id_pracownika
+ORDER BY dane_wypozyczen.id_wypozyczenia
+
+SELECT 
+    wypozyczenia.id_wypozyczenia
+FROM wypozyczenia
+	LEFT JOIN pracownicy ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE pracownicy.id_pracownika IS null
+
+SELECT 
+    wypozyczenia.id_wypozyczenia
+FROM pracownicy
+	RIGHT JOIN wypozyczenia ON wypozyczenia.id_pracownika = pracownicy.id_pracownika
+WHERE pracownicy.id_pracownika IS null
+
+
+Search for clients that did not order any car:
+
+SELECT 
+	klienci.imie_klienta,
+    klienci.nazwisko_klienta
+FROM
+	klienci LEFT JOIN wypozyczenia ON wypozyczenia.id_klienta = klienci.id_klienta
+WHERE
+	wypozyczenia.id_wypozyczenia IS null
+	
+SELECT 
+	klienci.imie_klienta,
+    klienci.nazwisko_klienta
+FROM
+	wypozyczenia RIGHT JOIN klienci ON wypozyczenia.id_klienta = klienci.id_klienta
+WHERE
+	wypozyczenia.id_wypozyczenia IS null
+    
+    
+Find cars that had never been ordered:
+SELECT 
+	samochody.id_samochodu,
+	samochody.marka,
+    samochody.model
+FROM 
+	samochody LEFT JOIN dane_wypozyczen ON samochody.id_samochodu = dane_wypozyczen.id_samochodu
+WHERE
+	dane_wypozyczen.id_wypozyczenia IS null
+	
+FULL JOIN
+NOT AVAILABLE IN MariaDB, just use LEFT AND RIGHT JOIN AS WITH UNION as:
+
+SELECT 
+	pracownicy.imie_pracownika,
+    pracownicy.nazwisko_pracownika,
+    wypozyczenia.id_wypozyczenia
+FROM pracownicy
+	LEFT JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE
+	wypozyczenia.id_wypozyczenia IS null
+
+UNION
+SELECT 
+	pracownicy.imie_pracownika,
+    pracownicy.nazwisko_pracownika,
+    wypozyczenia.id_wypozyczenia
+FROM pracownicy
+	RIGHT JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE
+	pracownicy.id_pracownika IS null
+    
+    
+SELECT 
+	pracownicy.imie_pracownika,
+    pracownicy.nazwisko_pracownika,
+    wypozyczenia.id_wypozyczenia
+FROM pracownicy
+	LEFT JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE
+	wypozyczenia.id_pracownika IS null
+
+UNION
+SELECT 
+	pracownicy.imie_pracownika,
+    pracownicy.nazwisko_pracownika,
+    wypozyczenia.id_wypozyczenia
+FROM pracownicy
+	RIGHT JOIN wypozyczenia ON pracownicy.id_pracownika = wypozyczenia.id_pracownika
+WHERE
+	wypozyczenia.id_pracownika IS null
+	
+	
+SELECT
+	SUM(dane_wypozyczen.cena_doba*dane_wypozyczen.ilosc_dob) wartosc,
+    klienci.imie_klienta,
+    klienci.nazwisko_klienta
+FROM dane_wypozyczen
+	INNER JOIN wypozyczenia ON wypozyczenia.id_wypozyczenia = dane_wypozyczen.id_wypozyczenia
+    INNER JOIN klienci ON klienci.id_klienta = wypozyczenia.id_klienta
+GROUP BY klienci.id_klienta
+
+
+
+JOIN based on not primary key:
+
+SELECT 
+	klienci.imie_klienta,
+    klienci.nazwisko_klienta,
+    pracownicy.imie_pracownika,
+    pracownicy.nazwisko_pracownika,
+    pracownicy.miasto_pracownika miasto
+FROM klienci
+	INNER JOIN pracownicy ON klienci.miasto_klienta = pracownicy.miasto_pracownika
+	
+	
+SELF JOIN:
+SELECT
+	p.nazwisko_pracownika,
+    s.nazwisko_pracownika szef
+FROM pracownicy p
+	JOIN pracownicy s ON p.szef_id = s.id_pracownika
